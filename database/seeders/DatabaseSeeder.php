@@ -52,8 +52,9 @@ class DatabaseSeeder extends Seeder
             'brand_id' => 1,
             'size_id' => 1,
             'color_id' => 1,
-            'image' => 'img_placeholder.jpg',
+            'image' => null,
             'name' => 'karpet moderno 210x310',
+            'is_available' => true,
         ]);
 
         Product::create([
@@ -61,8 +62,9 @@ class DatabaseSeeder extends Seeder
             'brand_id' => 2,
             'size_id' => 2,
             'color_id' => 2,
-            'image' => 'img_placeholder.jpg',
-            'name' => 'karpet arizona 160x210',
+            'image' => null,
+            'name' => 'karpet paris 160x210',
+            'is_available' => true,
         ]);
 
         // \App\Models\User::factory(10)->create();

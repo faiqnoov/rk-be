@@ -13,7 +13,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::latest()->paginate(5);
+        $products = Product::latest()->paginate(10);
 
         //return collection of products as a resource
         return new ProductResource(true, 'Products Data List', $products);
@@ -31,9 +31,15 @@ class ProductController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        //upload image
-        $image = $request->file('image');
-        $image->storeAs('public/products', $image->hashName());
+        //check if image is not empty
+        if ($request->hasFile('image')) {
+            //upload image
+            $image = $request->file('image');
+            $image->storeAs('public/products', $image->hashName());
+            $image = $image->hashName();
+        } else {
+            $image = null;
+        }
 
         //create product
         $product = Product::create([
@@ -41,8 +47,9 @@ class ProductController extends Controller
             'brand_id' => $request->brand_id,
             'size_id' => $request->size_id,
             'color_id' => $request->color_id,
-            'image' => $image->hashName(),
+            'image' => $image,
             'name' => $request->name,
+            'is_available' => $request->is_available,
         ]);
 
         return new ProductResource(true, 'Product Created', $product);
@@ -56,18 +63,14 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         //define validation rules
-        $validator = Validator::make($request->all(), [
-            'category_id' => $request->category_id,
-        ]);
-
-        $request->validate([
-            'category_id' => 'required',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'category_id' => 'required',
+        // ]);
 
         // check if validation fails
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
+        // if ($validator->fails()) {
+        //     return response()->json($validator->errors(), 422);
+        // }
 
         //check if image is not empty
         if ($request->hasFile('image')) {
@@ -87,6 +90,7 @@ class ProductController extends Controller
                 'color_id' => $request->color_id,
                 'image' => $image->hashName(),
                 'name' => $request->name,
+                'is_available' => $request->is_available,
             ]);
 
         } else {
@@ -98,6 +102,7 @@ class ProductController extends Controller
                 'size_id' => $request->size_id,
                 'color_id' => $request->color_id,
                 'name' => $request->name,
+                'is_available' => $request->is_available,
             ]);
         }
 

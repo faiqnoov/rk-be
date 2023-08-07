@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('color_id')->nullable();      
             $table->string('image')->nullable();
             $table->string('name')->nullable();
+            $table->boolean('is_available');
             $table->timestamps();
         });
     }

@@ -24,11 +24,13 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Brand::create([
-            'name' => 'moderno'
+            'name' => 'moderno',
+            'category_id' => 1
         ]);
 
         Brand::create([
-            'name' => 'arizona'
+            'name' => 'arizona',
+            'category_id' => 1
         ]);
 
         Size::create([
